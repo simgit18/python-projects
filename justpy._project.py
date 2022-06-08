@@ -1,18 +1,28 @@
 from dis import dis
 from click import option
 import justpy as jp
+from matplotlib.pyplot import figure
 import pandas as pd
 from datetime import datetime
 from pytz import utc
+from requests import options
+import matplotlib.pyplot as plt
 
 
 df = pd.read_csv("reviews.csv", parse_dates=['Timestamp'])
 df['week'] = df['Timestamp'].dt.strftime('%Y-%U')
 week_average = df.groupby(["week"]).mean()
 
+df['month'] = df['Timestamp'].dt.strftime('%Y-%m')
+month_average = df.groupby(["month", 'Course Name'])['Rating'].mean().unstack()
+
+# month_average.plot(figsize=(25, 3))
+# plt.show()
+
 # print(week_average.head())
 
-chart = """
+# SPLINE CHART"
+spline_chart = """
      {
     chart: {
         type: 'spline',
@@ -73,19 +83,91 @@ chart = """
 }
 """
 
+multi_spline_chart = """
+    {
+    chart: {
+        type: 'spline'
+    },
+    title: {
+        text: 'Multi Data Spline'
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        verticalAlign: 'top',
+        x: 150,
+        y: 100,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor:
+            '#FFFFFF'
+    },
+    xAxis: {
+        categories: [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday'
+        ],
+        plotBands: [{ // visualize the weekend
+            from: 4.5,
+            to: 6.5,
+            color: 'rgba(68, 170, 213, .2)'
+        }]
+    },
+    yAxis: {
+        title: {
+            text: 'Average Rating'
+        }
+    },
+    tooltip: {
+        shared: true,
+        valueSuffix: ' units'
+    },
+    credits: {
+        enabled: false
+    },
+    plotOptions: {
+        areaspline: {
+            fillOpacity: 0.5
+        }
+    },
+    series: [{
+        name: 'John',
+        data: [3, 4, 3, 5, 4, 10, 12]
+    }, {
+        name: 'Jane',
+        data: [1, 3, 4, 3, 3, 5, 4]
+    }]
+}
+"""
+
 size = 12
 
 
 def charts():
 
     wp = jp.WebPage()
-    d = jp.Div(text="HIGH CHARTS",
-               style=f'font-size: {size}px; color: red text-align:center')
+    d = jp.Div(a=wp, text="SPLINE CHART",
+               classes='text-center text-h3 q-pa-md')
 
-    disp_chart = jp.HighCharts(a=wp, options=chart)
-    disp_chart.options.xAxis.categories = list(week_average.index)
-    disp_chart.options.series[0].data = list(week_average['Rating'])
-    wp.add(d)
+    spline_charts = jp.HighCharts(a=wp, options=spline_chart)
+    spline_charts.options.xAxis.categories = list(week_average.index)
+    spline_charts.options.series[0].data = list(week_average['Rating'])
+
+    d2 = jp.Div(a=wp, text="MULTI SPLINE CHART",
+                classes='text-center text-h3 q-pa-md')
+    multi_data_spline = jp.HighCharts(a=wp, options=multi_spline_chart)
+    multi_data_spline.options.xAxis.categories = list(month_average.index)
+
+    multi_spline_data = [{"name": v1, "data": [
+        v2 for v2 in month_average[v1]]} for v1 in month_average.columns]
+
+    multi_data_spline.options.series = multi_spline_data
+
     return wp
 
 
