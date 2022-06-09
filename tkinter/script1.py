@@ -1,13 +1,14 @@
 from tkinter import *
 
 from pyparsing import col
+from sqlalchemy import FLOAT
 
 
 window = Tk()
 
 
 def kmtomiles():
-    miles = int(e1_value.get())*1.6
+    miles = float(e1_value.get())*1.6
     t1.insert(END, miles)
 
 
