@@ -53,6 +53,7 @@ def view():
     return row
 
 
-insert('apple', 10, 30)
+insert('apple', 10, 30
+       )
 
 print(view())
