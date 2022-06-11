@@ -1,4 +1,5 @@
 from cProfile import label
+from distutils.log import error
 from tkinter import *
 
 from matplotlib import cm
@@ -6,12 +7,16 @@ import back
 
 
 def get_selection(event):
-    index = list1.curselection()
-    global selected_tuple
-    selected_tuple = list1.get(index)
+    try:
+        index = list1.curselection()
+        global selected_tuple
+        selected_tuple = list1.get(index)
 
-    print(selected_tuple)
-    return selected_tuple
+        print(selected_tuple)
+        return selected_tuple
+
+    except error:
+        pass
 
 
 def view_command():
