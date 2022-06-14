@@ -18,6 +18,7 @@
 
             Button:
                 text: "Sign Up"
+                color: "red"
                 on_press: root.sign_up()
 
 <SignUp_Screen>:
@@ -29,11 +30,24 @@
                 text: "Create new account"
 
             TextInput:
+                id: username
                 hint_text: "Username"
             TextInput:
+                id: password
                 hint_text: "Password"
             Button:
                 text: "Create Account"
+                on_press: root.add_user(root.ids.username.text, root.ids.password.text)
+
+<ContinueLogin>
+    GridLayout:
+        cols:1
+        Label:
+            text:"Account Created! Go Ahead and SignIn"
+        
+        Button:
+            text:"Back to SignIn Page"
+            on_press:root.backTologin()
 
 <RootWidget>:
     LoginScreen:
@@ -42,3 +56,5 @@
     SignUp_Screen:
         name: "Signup_screen"
             
+    ContinueLogin:
+        name:"backTologin"
