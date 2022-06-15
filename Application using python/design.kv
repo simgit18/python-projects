@@ -1,30 +1,60 @@
+#:kivy 1.9.2
+
 <LoginScreen>:
     GridLayout:
         cols: 1
         GridLayout:
+            padding: 15,15
+            spacing: 20,20
             cols: 1
             Label:
+                font_size: "20sp"
                 text: "User Login"
             TextInput:
+                id: username
                 hint_text: "username"
             TextInput:
+                id: password
+                password: True
                 hint_text: "password"
-            Button:
-                text: "Login"
+            RelativeLayout:
+                Button:
+                    pos_hint: {'center_x':.5 , 'center_y':.6 }
+                    text: "Login"
+                    size_hint: .3,.5 
+                    on_press: root.login(root.ids.username.text,root.ids.password.text)
+            Label:
+                id: login_wrong
+                text:""
+
         GridLayout:
+            size_hint:0.2,0.2
+            padding: 10,10
+            spacing:10,0
+
             cols: 2
             Button:
+                color: 'blue'
                 text: "Forgot Password"
-
+                background_color: 1,1,1,0
+                opacity: 1 if self.state =='normal' else .5
+                color: .1,.7,1,1
             Button:
                 text: "Sign Up"
-                color: "red"
+                color: .1,.7,1,1
+                background_color: 1,1,1,0
+                opacity: 1 if self.state =='normal' else .5
+
                 on_press: root.sign_up()
 
 <SignUp_Screen>:
     GridLayout:
         cols:1
+        padding:10,10
+        spacing: 10,10
         GridLayout:
+            padding:10,10
+            spacing:10,10
             cols:1
             Label:
                 text: "Create new account"
@@ -49,6 +79,32 @@
             text:"Back to SignIn Page"
             on_press:root.backTologin()
 
+<LoginScreenSuccess>:
+    GridLayout:
+        cols:1
+        padding:30,30
+        spacing:30,30
+        RelativeLayout:
+            ImageButton:
+                source: 'logout_hover.png' if self.hovered else 'logout_nothover.png'
+                size_hint: .35,.35
+                pos_hint: {'x': .80 , 'y': .80}
+                on_press: root.logOut()
+
+        Label:
+            text: "How are you feeling?"
+        
+        TextInput:
+            id: mood
+            hint_text:"try happy, sad, unloved...."
+
+        Button:
+            text:"Enlighten Me!"
+            on_press: root.showQoute(root.ids.mood.text)
+        Label:
+            id: quote
+            text:""
+
 <RootWidget>:
     LoginScreen:
         name: "Login_screen"
@@ -58,3 +114,6 @@
             
     ContinueLogin:
         name:"backTologin"
+
+    LoginScreenSuccess:
+        name: "LoginSuccess"
