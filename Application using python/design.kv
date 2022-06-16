@@ -94,16 +94,30 @@
         Label:
             text: "How are you feeling?"
         
-        TextInput:
-            id: mood
-            hint_text:"try happy, sad, unloved...."
-
-        Button:
-            text:"Enlighten Me!"
-            on_press: root.showQoute(root.ids.mood.text)
-        Label:
-            id: quote
-            text:""
+        RelativeLayout:
+            TextInput:
+                id: mood
+                size_hint: .40,.40
+                pos_hint: {'center_x':.50,'center_y':.50}
+                hint_text:"try happy, sad, unloved...."
+        RelativeLayout:
+            Button:
+                text:"Enlighten Me!"
+                text_size: self.size
+                halign: 'center'
+                valign: 'center'
+                size_hint: .30,.40
+                pos_hint: {'center_x':.50,'center_y':.50}
+                on_press: root.showQoute(root.ids.mood.text)
+        ScrollView:
+            Label:
+                id: quote
+                text_size: self.width,None
+                text:""
+                halign: 'center' if self.text == 'try another feeling' else 'left'
+                valign: 'center'
+                size_hint_y: None
+                height: self.texture_size[1]
 
 <RootWidget>:
     LoginScreen:
