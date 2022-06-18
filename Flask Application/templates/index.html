@@ -12,7 +12,10 @@
     <h1>Average Height Calculator</h1>
     <div>Enter your Email address and your Height to recieve average height information on your email</div>
     <br>
-    <form action="success.html" method="post">
+    <div class="message">
+        {{text | safe}}
+    </div>
+    <form action="{{url_for('success')}}" method="POST">
         <input type="email" name="email_name" id="" placeholder="Enter your email address here" required><br>
         <input type="number" min="50" max="300" step="0.1" name="height_value" id="" placeholder="enter your height in centimeter here" required><br>
         <button type="submit">SUBMIT</button>
