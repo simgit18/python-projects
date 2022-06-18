@@ -33,7 +33,7 @@ div{
 
 .container h1{
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
+    font-size: 50px;
     margin-top: 80px;
 }
 
@@ -60,6 +60,9 @@ div{
     transform:scale(1.2) ;
 }
 
-.container button:active{
-    transform:rotate() ;
+.container btn:active {
+    transform: scale(0.98);
+    /* Scaling button to 0.98 to its original size */
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    /* Lowering the shadow */
 }
