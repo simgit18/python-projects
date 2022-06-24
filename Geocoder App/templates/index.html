@@ -12,8 +12,8 @@
     <div>
         <h2> Super Geocoder</h2>
         <div> Please upload your CSV file</div>
-        <form action="index.html" method="get">
-            <input type="file" name="csv_file" id="">
+        <form action="{{url_for(success)}}" method="get">
+            <input type="file" name="csv_file" id="" name="file">
             <button type="submit">Submit</button>
         </form>
     </div>
